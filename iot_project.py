@@ -2,6 +2,7 @@ import sys
 import socket
 import struct
 import json
+import os
 
 from PyQt5.QtWidgets import (
     QApplication,
@@ -9,13 +10,15 @@ from PyQt5.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QWidget,
-    QLineEdit
+    QLineEdit,
+    QPushButton
 )
 
 class Window(QWidget):
-    def __init__(self):
+    def __init__(self,model):
         super().__init__()
         self.setWindowTitle("Smart Space")
+        self._recipe = model
         self.resize(720, 720)
         # Create a top-level layout
         layout = QVBoxLayout()
@@ -28,6 +31,8 @@ class Window(QWidget):
         tabs.addTab(self.recipeTabUI(), "Recipe")
         tabs.addTab(self.appTabUI(), "Apps")
         layout.addWidget(tabs)
+
+        
 
     def thingsTabUI(self):
         """Create the Things page UI."""
@@ -65,8 +70,11 @@ class Window(QWidget):
         """Create the Recipe page UI."""
         recipeTab = QWidget()
         layout = QVBoxLayout()
+        myButton = QPushButton("new")
+        myButton.clicked.connect(self._recipe)
         layout.addWidget(QCheckBox("recipe Option 1"))
         layout.addWidget(QLineEdit("recipe Option 2"))
+        layout.addWidget(myButton)
         layout.addStretch()
         recipeTab.setLayout(layout)
         return recipeTab
@@ -82,6 +90,7 @@ class Window(QWidget):
         return appTab
 
     def checkSmartSpace():
+        #Socket needs to be open in UDP
         print("Checking")
         multicast_group = "232.1.1.1"
         server_address = ("", 1235)
@@ -101,10 +110,13 @@ class Window(QWidget):
 
         while True: 
             print(sock.recv(10240))
+def newRecipe():
+    os.system('python RecipeTab.py')
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = Window()
+    model = newRecipe
+    window = Window(model = model)
     window.show()
     sys.exit(app.exec_())
