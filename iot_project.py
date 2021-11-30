@@ -14,6 +14,14 @@ from PyQt5.QtWidgets import (
     QPushButton
 )
 
+"""
+Make the app a button
+status of the app
+add app (include a box they can type in and then a button to add)
+remove + delete the app/txt file from the listing
+"""
+
+
 class Window(QWidget):
     def __init__(self,model):
         super().__init__()
