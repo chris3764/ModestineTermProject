@@ -109,6 +109,9 @@ class PyCalcUi(QMainWindow):
             self.buttons[btnText] = QPushButton(btnText)
             self.buttons[btnText].setFixedSize(200, 50)
             buttonsLayout.addWidget(self.buttons[btnText], pos[0], pos[1])
+            self.inputBox = QLineEdit("FileName Box")
+            self.inputBox.setFixedSize(200,50)
+            buttonsLayout.addWidget(self.inputBox,4,1)
         # Add buttonsLayout to the general layout
         self.generalLayout.addLayout(buttonsLayout)
         

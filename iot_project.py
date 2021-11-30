@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QWidget,
+    QLineEdit
 )
 
 class Window(QWidget):
@@ -65,7 +66,7 @@ class Window(QWidget):
         recipeTab = QWidget()
         layout = QVBoxLayout()
         layout.addWidget(QCheckBox("recipe Option 1"))
-        layout.addWidget(QCheckBox("recipe Option 2"))
+        layout.addWidget(QLineEdit("recipe Option 2"))
         layout.addStretch()
         recipeTab.setLayout(layout)
         return recipeTab
