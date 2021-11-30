@@ -1,0 +1,2 @@
+S;JRPI;JerrySmartSpace;LED_ON;10.254.254.64;()
+R;ChristianPi;Modestine;Alarm;();192.168.1.149;1;JRPI;JerrySmartSpace;LED_OFF;();10.254.254.64

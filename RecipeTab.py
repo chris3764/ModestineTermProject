@@ -22,16 +22,16 @@ __author__ = 'Leodanis Pozo Ramos'
 
 class PyCalcCtrl:
     """PyCalc Controller class."""
-    def __init__(self, model, view):
+    def __init__(self, model, view,outputFile):
         """Controller initializer."""
         self._evaluate = model
         self._view = view
         # Connect signals and slots
         self._connectSignals()
-
+        self._outputFile = outputFile
     def _calculateResult(self):
         """Evaluate expressions."""
-        result = self._evaluate(expression=self._view.displayText())
+        result = self._evaluate(expression=self._view.displayText(),outputFile = self._outputFile)
         self._view.setDisplayText(result)
 
     def _buildExpression(self, sub_exp):
@@ -83,7 +83,7 @@ class PyCalcUi(QMainWindow):
         self.buttons = {}
         buttonsLayout = QGridLayout()
         # Button text | position on the QGridLayout
-        buttons = {'S': (0, 0),
+        buttons = {'Service call': (0, 0),
                    'R': (0, 1),
                    ';': (0, 2),
                    '|': (0, 3),
@@ -101,7 +101,8 @@ class PyCalcUi(QMainWindow):
                    '()': (3, 0),
                    '0':(3,1),
                    '1':(3,2),
-                   '=': (3, 3),
+                   '\n':(3,3),
+                   '=': (3, 4),
                   }
         # Create the buttons and add them to the grid layout
         for btnText, pos in buttons.items():
@@ -125,25 +126,25 @@ class PyCalcUi(QMainWindow):
             self.setDisplayText('')
 # Client code
 ERROR_MSG = 'ERROR'
-def evaluateExpression(expression):
+def evaluateExpression(expression,outputFile):
     """Evaluate an expression."""
-    try:
-        result = str(eval(expression, {}, {}))
-    except Exception:
-        result = ERROR_MSG
+    newApp = open(outputFile, 'w')
+    newApp.write(expression)
+    newApp.close()
+    result = outputFile
 
     return result
 def main():
     """Main function."""
     # Create an instance of QApplication
-    outputFile = "application1.txt"
+    outputFile = "application.txt"
     pycalc = QApplication(sys.argv)
     # Show the calculator's GUI
     view = PyCalcUi()
     view.show()
     # Create instances of the model and the controller
     model = evaluateExpression
-    PyCalcCtrl(model=model, view=view)
+    PyCalcCtrl(model=model, view=view,outputFile = outputFile)
     # Execute calculator's main loop
     sys.exit(pycalc.exec_())
 
