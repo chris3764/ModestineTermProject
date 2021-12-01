@@ -15,8 +15,9 @@ from PyQt5.QtWidgets import (
 )
 
 class Window(QWidget):
-    def __init__(self,model):
+    def __init__(self, model, things):
         super().__init__()
+        self.things = things
         self.setWindowTitle("Smart Space")
         self._recipe = model
         self.resize(720, 720)
@@ -36,6 +37,7 @@ class Window(QWidget):
 
     def thingsTabUI(self):
         """Create the Things page UI."""
+        print(self.things)
         thingsTab = QWidget()
         #Window.checkSmartSpace()
         layout = QVBoxLayout()
@@ -110,13 +112,56 @@ class Window(QWidget):
 
         while True: 
             print(sock.recv(10240))
+
+def parseTweets():
+    #TODO: make cleaner
+    with open('tweets/CTweets1.json') as f:
+        json_data = json.load(f)
+    thing_id = json_data[0]['Thing ID']
+    space_id = json_data[0]['Space ID']
+    network_name = json_data[1]['Network Name']
+    ip = json_data[1]['IP']
+    port = json_data[1]['Port']
+    service1 = json_data[4]['Name']
+    service2 = json_data[5]['Name']
+
+    thing1 = {
+        "thing_id": thing_id,
+        "space_id": space_id,
+        "network_name": network_name,
+        "ip": ip,
+        "port": port,
+        "services": [service1, service2]
+    }
+
+    with open('tweets/JTweets1.json') as f:
+        json_data = json.load(f)
+    thing_id = json_data[0]['Thing ID']
+    space_id = json_data[0]['Space ID']
+    network_name = json_data[1]['Network Name']
+    ip = json_data[1]['IP']
+    port = json_data[1]['Port']
+    service1 = json_data[3]['Name']
+    service2 = json_data[4]['Name']
+
+    thing2 = {
+        "thing_id": thing_id,
+        "space_id": space_id,
+        "network_name": network_name,
+        "ip": ip,
+        "port": port,
+        "services": [service1, service2]
+    }
+    return [thing1, thing2]
+
 def newRecipe():
     os.system('python RecipeTab.py')
 
 
 if __name__ == "__main__":
+    things = parseTweets()
     app = QApplication(sys.argv)
     model = newRecipe
-    window = Window(model = model)
+    window = Window(model = model, things = things)
     window.show()
     sys.exit(app.exec_())

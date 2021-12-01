@@ -1,0 +1,59 @@
+[
+    {
+        "Tweet Type": "Identity_Thing",
+        "Thing ID": "JRPI",
+        "Space ID": "JerrySmartSpace",
+        "Name": "WorkPls",
+        "Model": "",
+        "Vendor": "",
+        "Owner": "",
+        "Description": "",
+        "OS": "Raspbian"
+    },
+    {
+        "Tweet Type": "Identity_Language",
+        "Thing ID": "JRPI",
+        "Space ID": "JerrySmartSpace",
+        "Network Name": "Basket of Lemons",
+        "Communication Language": "Sockets",
+        "IP": "65.116.108.97",
+        "Port": "6668"
+    },
+    {
+        "Tweet Type": "Identity_Entity",
+        "Thing ID": "JRPI",
+        "Space ID": "JerrySmartSpace",
+        "Name": "",
+        "ID": "LED",
+        "Type": "",
+        "Owner": "",
+        "Vendor": "",
+        "Description": ""
+    },
+    {
+        "Tweet Type": "Service",
+        "Name": "LED_OFF",
+        "Thing ID": "JRPI",
+        "Entity ID": "LED",
+        "Space ID": "JerrySmartSpace",
+        "Vendor": "",
+        "API": "LED_OFF:[NULL]:(Output,int, NULL)",
+        "Type": "Action",
+        "AppCategory": "Lighting",
+        "Description": "Hold the button for 1.5 seconds to turn off the LED.",
+        "Keywords": ""
+    },
+    {
+        "Tweet Type": "Service",
+        "Name": "LED_ON",
+        "Thing ID": "JRPI",
+        "Entity ID": "LED",
+        "Space ID": "JerrySmartSpace",
+        "Vendor": "",
+        "API": "LED_ON:[NULL]:(Output,int, NULL)",
+        "Type": "Action",
+        "AppCategory": "Lighting",
+        "Description": "Press the button to turn on the LED.",
+        "Keywords": ""
+    }
+]
