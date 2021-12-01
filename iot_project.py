@@ -3,16 +3,12 @@ import socket
 import struct
 import json
 import os
+from PyQt5 import QtCore
+from PyQt5.QtGui import *
 
-from PyQt5.QtWidgets import (
-    QApplication,
-    QCheckBox,
-    QTabWidget,
-    QVBoxLayout,
-    QWidget,
-    QLineEdit,
-    QPushButton
-)
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+
 
 class Window(QWidget):
     def __init__(self, model, things):
@@ -33,30 +29,90 @@ class Window(QWidget):
         tabs.addTab(self.appTabUI(), "Apps")
         layout.addWidget(tabs)
 
-        
-
     def thingsTabUI(self):
         """Create the Things page UI."""
-        print(self.things)
         thingsTab = QWidget()
         #Window.checkSmartSpace()
-        layout = QVBoxLayout()
-        layout.addWidget(QCheckBox("things Option 1"))
-        layout.addWidget(QCheckBox("things Option 2"))
-        layout.addStretch()
-        thingsTab.setLayout(layout)
+        outerLayout = QVBoxLayout()
+        #outerLayout.addStretch()
+        for t in self.things:
+            thingsLayout = QVBoxLayout()
+            thing = QLabel("Thing name: " + t['thing_id'])
+            thing.setFont(QFont('Arial font', 15))
+            #thing.setStyleSheet("border: 1px solid black;")
+            thingsLayout.addWidget(thing)
+
+            spaceID = QLabel("Space ID: " + t['space_id'])
+            network = QLabel("Network: " + t['network_name'])
+            ip = QLabel("IP: " + t['ip'])
+            port = QLabel("Port: " + t['port'])
+            servicesLabel = QLabel("Services:")
+            services = QVBoxLayout()
+            for s in t['services']:
+                serv = QLabel(s)
+                services.addWidget(serv)
+            
+            thingsInfo = QVBoxLayout()
+            thingsInfo.addWidget(spaceID)
+            thingsInfo.addWidget(network)
+            thingsInfo.addWidget(ip)
+            thingsInfo.addWidget(port)
+            thingsInfo.addWidget(servicesLabel)
+            thingsInfo.addLayout(services)
+            
+            thingsLayout.addLayout(thingsInfo)
+            thingsLayout.addStretch()
+            outerLayout.addLayout(thingsLayout)
+        thingsTab.setLayout(outerLayout)
+
         return thingsTab
 
+# thing1 = {
+#         "thing_id": thing_id,
+#         "space_id": space_id,
+#         "network_name": network_name,
+#         "ip": ip,
+#         "port": port,
+#         "services": [service1, service2]
+#     }
     def servicesTabUI(self):
         """Create the Services page UI."""
         servicesTab = QWidget()
         layout = QVBoxLayout()
-        layout.addWidget(QCheckBox("services Option 1"))
-        layout.addWidget(QCheckBox("services Option 2"))
-        layout.addStretch()
+        #layout.addStretch()
+        thingsL = []
+        self.filterBox = QComboBox()
+
+        for t in self.things:
+            thingsL.append(t['thing_id'] + "'s services")
+        thingsL.append("Shared Services")
+
+        self.filterBox.addItems(thingsL)
+        self.stackedLayout = QStackedLayout()
+        self.filterBox.activated.connect(self.switchPage)
+
+        for t in self.things:
+            thing1 = QWidget()
+            thing1Layout = QFormLayout()
+            for s in t['services']:
+                thing1Layout.addRow("Service ID: ", QLabel(s))
+                #print('asdf')
+            thing1.setLayout(thing1Layout)
+            self.stackedLayout.addWidget(thing1)
+        thing1 = QWidget()
+        thing1Layout = QFormLayout()
+        thing1Layout.addRow(QLabel("No shared Services"))
+        thing1.setLayout(thing1Layout)
+        self.stackedLayout.addWidget(thing1)
+
+        layout.addWidget(self.filterBox)
+        layout.addLayout(self.stackedLayout)
         servicesTab.setLayout(layout)
 
         return servicesTab
+    
+    def switchPage(self):
+        self.stackedLayout.setCurrentIndex(self.filterBox.currentIndex())
 
     def relationshipsTabUI(self):
         """Create the Relationships page UI."""
