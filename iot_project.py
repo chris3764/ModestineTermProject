@@ -128,10 +128,8 @@ class Window(QWidget):
         """Create the Recipe page UI."""
         recipeTab = QWidget()
         layout = QVBoxLayout()
-        myButton = QPushButton("new")
+        myButton = QPushButton("New Recipe")
         myButton.clicked.connect(self._recipe)
-        layout.addWidget(QCheckBox("recipe Option 1"))
-        layout.addWidget(QLineEdit("recipe Option 2"))
         layout.addWidget(myButton)
         layout.addStretch()
         recipeTab.setLayout(layout)

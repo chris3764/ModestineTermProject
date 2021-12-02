@@ -8,7 +8,7 @@ Created on Tue Nov 30 10:00:02 2021
 import sys
 import json
 import socket
-
+import os
 # Import QApplication and the required widgets from PyQt5.QtWidgets
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
@@ -24,12 +24,13 @@ __author__ = 'Leodanis Pozo Ramos'
 
 class PyCalcCtrl:
     """PyCalc Controller class."""
-    def __init__(self, model, view,outputFile,upload,run):
+    def __init__(self, model, view,outputFile,upload,run,delete):
         """Controller initializer."""
         self._evaluate = model
         self._view = view
         # Connect signals and slots
         self._upload = upload
+        self._delete = delete
         self._run = run
         self._connectSignals()
        
@@ -43,6 +44,8 @@ class PyCalcCtrl:
         self._view.setDisplayText(result)
     def _runTheApp(self):
         self._run(self._view.inputBox.text())
+    def _deleteApp(self):
+        self._delete(self._view.inputBox.text())
     def _buildExpression(self, sub_exp):
         """Build expression."""
         if self._view.displayText() == ERROR_MSG:
@@ -65,12 +68,13 @@ class PyCalcCtrl:
     def _connectSignals(self):
         """Connect signals and slots."""
         for btnText, btn in self._view.buttons.items():
-            if btnText not in {'=', 'C','Upload','Activate App'}:
+            if btnText not in {'=', 'C','Upload','Activate App','Delete'}:
                 btn.clicked.connect(partial(self._buildExpression, btnText))
 
         self._view.buttons['Finalize'].clicked.connect(self._calculateResult)
         self._view.buttons['Upload'].clicked.connect(self._uploadApp)
         self._view.buttons['Activate App'].clicked.connect(self._runTheApp)
+        self._view.buttons['Delete'].clicked.connect(self._deleteApp)
         self._view.display.returnPressed.connect(self._calculateResult)
         self._view.buttons['C'].clicked.connect(self._view.clearDisplay)
 # Create a subclass of QMainWindow to setup the calculator's GUI
@@ -117,8 +121,10 @@ class PyCalcUi(QMainWindow):
                    'Upload': (2, 3),
                    '0':(2,0),
                    '1':(2,1),
+                   'Delete':(3,1),
                    '\n':(3,2),
                    'Finalize': (3, 3),
+                   
                   }
         # Create the buttons and add them to the grid layout
         for btnText, pos in buttons.items():
@@ -262,6 +268,8 @@ def runApp(inputName):
                 print(response[-4:-3]);
                 
                 clientSocket.close()
+def deleteApp(fileName):
+    os.remove(fileName)
 def main():
     """Main function."""
     # Create an instance of QApplication
@@ -271,10 +279,11 @@ def main():
     view = PyCalcUi()
     view.show()
     # Create instances of the model and the controller
+    deleter = deleteApp
     model = evaluateExpression
     uploadF = uploadFile
     runner = runApp
-    PyCalcCtrl(model=model, view=view,outputFile = outputFile,upload=uploadF,run = runner)
+    PyCalcCtrl(model=model, view=view,outputFile = outputFile,upload=uploadF,run = runner,delete = deleter)
     # Execute calculator's main loop
     sys.exit(pycalc.exec_())
 
