@@ -68,7 +68,7 @@ class PyCalcCtrl:
     def _connectSignals(self):
         """Connect signals and slots."""
         for btnText, btn in self._view.buttons.items():
-            if btnText not in {'=', 'C','Upload','Activate App','Delete'}:
+            if btnText not in {'Finalize', 'C','Upload','Activate App','Delete'}:
                 btn.clicked.connect(partial(self._buildExpression, btnText))
 
         self._view.buttons['Finalize'].clicked.connect(self._calculateResult)

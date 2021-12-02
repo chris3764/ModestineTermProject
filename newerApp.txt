@@ -1,1 +1,0 @@
-R;Service call;ChristianPi;Modestine;LightSensor;();172.20.10.4;1;Service call;ChristianPi;Modestine;Alarm;();172.20.10.4
