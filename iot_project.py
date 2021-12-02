@@ -4,6 +4,7 @@ import struct
 import json
 import os
 
+
 from PyQt5.QtWidgets import (
     QApplication,
     QCheckBox,
@@ -13,14 +14,14 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QPushButton
 )
-
 """
 Make the app a button
 status of the app
 add app (include a box they can type in and then a button to add)
 remove + delete the app/txt file from the listing
-"""
 
+read the current directory for text files
+"""
 
 class Window(QWidget):
     def __init__(self,model):
@@ -88,11 +89,16 @@ class Window(QWidget):
         return recipeTab
 
     def appTabUI(self):
-        """Create the App page UI."""
+        """Create the App page UI."""        
         appTab = QWidget()
         layout = QVBoxLayout()
-        layout.addWidget(QCheckBox("app Option 1"))
-        layout.addWidget(QCheckBox("app Option 2"))
+        file_list = os.listdir(os.getcwd())
+        txt_str = ".txt"
+        length = len(file_list)
+        for i in range(length):
+            if txt_str in file_list[i]:
+                layout.addWidget(QPushButton(file_list[i]))
+
         layout.addStretch()
         appTab.setLayout(layout)
         return appTab
