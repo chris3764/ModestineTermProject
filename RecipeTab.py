@@ -19,12 +19,11 @@ from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QVBoxLayout
 from functools import partial
-__version__ = '0.1'
-__author__ = 'Leodanis Pozo Ramos'
 
-class PyCalcCtrl:
-    """PyCalc Controller class."""
-    def __init__(self, model, view,outputFile,upload,run,delete):
+
+class PyRecipeCtrl:
+    """PyRecipe Controller class."""
+    def __init__(self, model, view,upload,run,delete):
         """Controller initializer."""
         self._evaluate = model
         self._view = view
@@ -34,7 +33,6 @@ class PyCalcCtrl:
         self._run = run
         self._connectSignals()
        
-        self._outputFile = outputFile
     def _calculateResult(self):
         """Evaluate expressions."""
         result = self._evaluate(expression=self._view.displayText(),outputFile = self._view.inputBox.text())
@@ -77,16 +75,14 @@ class PyCalcCtrl:
         self._view.buttons['Delete'].clicked.connect(self._deleteApp)
         self._view.display.returnPressed.connect(self._calculateResult)
         self._view.buttons['C'].clicked.connect(self._view.clearDisplay)
-# Create a subclass of QMainWindow to setup the calculator's GUI
-class PyCalcUi(QMainWindow):
-    """PyCalc's View (GUI)."""
+
+class PyRecipe(QMainWindow):
+    """Recipe's View (GUI)."""
     def __init__(self):
         """View initializer."""
         super().__init__()
-        # Set some main window's properties
         self.setWindowTitle('Recipe/Application Manager')
         self.setFixedSize(1000, 1000)
-        # Set the central widget
         self.generalLayout = QVBoxLayout()
         self._centralWidget = QWidget(self)
         self.setCentralWidget(self._centralWidget)
@@ -109,7 +105,7 @@ class PyCalcUi(QMainWindow):
         self.buttons = {}
         buttonsLayout = QGridLayout()
         # Button text | position on the QGridLayout
-        buttons = {'Service call': (0, 0),
+        buttons = {
                    'R': (0, 1),
                    ';': (0, 2),
                    'C': (0, 3),
@@ -149,8 +145,7 @@ class PyCalcUi(QMainWindow):
     def clearDisplay(self):
             """Clear the display."""
             self.setDisplayText('')
-# Client code
-ERROR_MSG = 'ERROR'
+ERROR_MSG = 'Error'
 def evaluateExpression(expression,outputFile):
     """Evaluate an expression."""
     newApp = open(outputFile, 'w')
@@ -253,7 +248,6 @@ def runApp(inputName):
                 except clientSocket.error as err:
                     print("Socket error idk")
         
-            # Connect to the Jerry's Pi
                 ipAddress = dataValues[5][:-1]
                 
                 clientSocket.connect((dataValues[5][:-1], 6668));
@@ -273,19 +267,18 @@ def deleteApp(fileName):
 def main():
     """Main function."""
     # Create an instance of QApplication
-    outputFile = "application.txt"
-    pycalc = QApplication(sys.argv)
-    # Show the calculator's GUI
-    view = PyCalcUi()
+    pyApp = QApplication(sys.argv)
+    
+    view = PyRecipe()
     view.show()
-    # Create instances of the model and the controller
+   
     deleter = deleteApp
     model = evaluateExpression
     uploadF = uploadFile
     runner = runApp
-    PyCalcCtrl(model=model, view=view,outputFile = outputFile,upload=uploadF,run = runner,delete = deleter)
-    # Execute calculator's main loop
-    sys.exit(pycalc.exec_())
+    PyRecipeCtrl(model=model, view=view,upload=uploadF,run = runner,delete = deleter)
+    
+    sys.exit(pyApp.exec_())
 
 if __name__ == '__main__':
     main()
