@@ -139,8 +139,12 @@ class Window(QWidget):
         """Create the App page UI."""
         appTab = QWidget()
         layout = QVBoxLayout()
-        layout.addWidget(QCheckBox("app Option 1"))
-        layout.addWidget(QCheckBox("app Option 2"))
+        file_list = os.listdir(os.getcwd())
+        txt_str = ".txt"
+        length = len(file_list)
+        for i in range(length):
+            if txt_str in file_list[i]:
+                layout.addWidget(QPushButton(file_list[i]))
         layout.addStretch()
         appTab.setLayout(layout)
         return appTab
