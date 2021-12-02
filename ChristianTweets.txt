@@ -1,6 +1,0 @@
-{ "Tweet Type" : "Identity_Thing","Thing ID" : "ChristianPi","Space ID" : "Modestine","Name" : "","Model" : "","Vendor" : "","Owner" : "","Description" : "","OS" : "" }
-{ "Tweet Type" : "Identity_Language","Thing ID" : "ChristianPi","Space ID" : "Modestine","Network Name" : "Basket of Lemons","Communication Language" : "","IP" : "65.116.108.97","Port" : "6668" }
-{ "Tweet Type" : "Identity_Entity","Thing ID" : "ChristianPi","Space ID" : "Modestine","Name" : "","ID" : "LightSensor","Type" : "","Owner" : "","Vendor" : "","Description" : "" }
-{ "Tweet Type" : "Identity_Entity","Thing ID" : "ChristianPi","Space ID" : "Modestine","Name" : "","ID" : "Alarm","Type" : "","Owner" : "","Vendor" : "","Description" : "" }
-{ "Tweet Type" : "Service","Name" : "LightSensor","Thing ID" : "ChristianPi","Entity ID" : "LightSensor","Space ID" : "Modestine","Vendor" : "","API" : "LightSensor:[NULL]:(output,int, NULL)","Type" : "","AppCategory" : "","Description" : "","Keywords" : "" }
-{ "Tweet Type" : "Service","Name" : "Alarm","Thing ID" : "ChristianPi","Entity ID" : "Alarm","Space ID" : "Modestine","Vendor" : "","API" : "Alarm:[NULL]:(NULL)","Type" : "","AppCategory" : "","Description" : "","Keywords" : "" }
