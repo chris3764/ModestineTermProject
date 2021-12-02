@@ -55,7 +55,7 @@ class PyCalcCtrl:
         elif sub_exp =='Alarm':
             addedOut = 'Service call;ChristianPi;Modestine;Alarm;();172.20.10.4'
         elif sub_exp =='LightSensor': 
-            addedOut = 'Service call;ChristianPi;Modestine;LightSensor;();170.20.10.4'
+            addedOut = 'Service call;ChristianPi;Modestine;LightSensor;();172.20.10.4'
         else:
             addedOut = sub_exp
         
@@ -68,7 +68,7 @@ class PyCalcCtrl:
             if btnText not in {'=', 'C','Upload','Activate App'}:
                 btn.clicked.connect(partial(self._buildExpression, btnText))
 
-        self._view.buttons['='].clicked.connect(self._calculateResult)
+        self._view.buttons['Finalize'].clicked.connect(self._calculateResult)
         self._view.buttons['Upload'].clicked.connect(self._uploadApp)
         self._view.buttons['Activate App'].clicked.connect(self._runTheApp)
         self._view.display.returnPressed.connect(self._calculateResult)
@@ -118,7 +118,7 @@ class PyCalcUi(QMainWindow):
                    '0':(2,0),
                    '1':(2,1),
                    '\n':(3,2),
-                   '=': (3, 3),
+                   'Finalize': (3, 3),
                   }
         # Create the buttons and add them to the grid layout
         for btnText, pos in buttons.items():
@@ -218,7 +218,7 @@ def runApp(inputName):
                         newSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
                     except newSocket.error as err:
                         print("Socket error idk")
-                    newSocket.connect((dataValues[13], 6668))
+                    newSocket.connect((dataValues[13][:-1], 6668))
                     newSocket.send(bytes(data_json, encoding="utf-8"))
             
                 # Receive data from server
