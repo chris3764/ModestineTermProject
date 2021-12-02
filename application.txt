@@ -1,2 +1,1 @@
-Service call;JRPI;JerrySmartSpace;LED_ON;();10.254.254.64
-Service call;ChristianPi;Modestine;Alarm;();192.168.1.149
+Service call;ChristianPi;Modestine;LightSensor;();172.20.10.4
